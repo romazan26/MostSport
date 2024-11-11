@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		30ACB95B2CE289CE0022D7A9 /* MostSport */ = {
+		30ACB9802CE28B510022D7A9 /* MostSport */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MostSport;
 			sourceTree = "<group>";
@@ -32,8 +32,8 @@
 		30ACB9502CE289CD0022D7A9 = {
 			isa = PBXGroup;
 			children = (
-				30ACB95B2CE289CE0022D7A9 /* MostSport */,
 				30ACB95A2CE289CE0022D7A9 /* Products */,
+				30ACB9802CE28B510022D7A9 /* MostSport */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,7 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				30ACB95B2CE289CE0022D7A9 /* MostSport */,
+				30ACB9802CE28B510022D7A9 /* MostSport */,
 			);
 			name = MostSport;
 			packageProductDependencies = (
