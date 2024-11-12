@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DashboardView: View {
     @StateObject var vmCoach: CoachViewModel
+    @Binding var section: TableSection
+    @Binding var ispresentAddPlayerView: Bool
     var body: some View {
         ScrollView {
             VStack(spacing: 15) {
@@ -29,8 +31,6 @@ struct DashboardView: View {
                     }
                 }
 
-               
-                
                 //MARK: - Dashboard
                 VStack(alignment: .leading){
                     Text("Dashboard")
@@ -51,8 +51,9 @@ struct DashboardView: View {
                 //MARK: - Goup of button
                 HStack {
                     //MARK: Add new player button
-                    NavigationLink {
-                        ///Destination
+                    Button {
+                        section = .team
+                        ispresentAddPlayerView = true
                     } label: {
                         CustomButtonDashboardBigView(text: "Add new Player", image: "person.fill.badge.plus")
                     }
@@ -87,6 +88,6 @@ struct DashboardView: View {
 
 #Preview {
     NavigationView {
-        DashboardView(vmCoach: CoachViewModel())
+        DashboardView(vmCoach: CoachViewModel(), section: .constant(.dashboard), ispresentAddPlayerView: .constant(true))
     }
 }
