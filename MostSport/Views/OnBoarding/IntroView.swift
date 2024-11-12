@@ -46,12 +46,12 @@ struct IntroView: View {
                         }
                     }
                 }, label: {
-                    CstomButtonIntro()
+                    CustomButtonIntro()
                 }).padding(.horizontal, 30)
             
         }
         .fullScreenCover(isPresented: $isPresented, content: {
-           // MainView()
+            MainView()
         })
     }
     

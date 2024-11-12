@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CstomButtonIntro: View {
+struct CustomButtonIntro: View {
     var body: some View {
         HStack {
             Text("Next")
@@ -22,5 +22,5 @@ struct CstomButtonIntro: View {
 }
 
 #Preview {
-    CstomButtonIntro()
+    CustomButtonIntro()
 }
