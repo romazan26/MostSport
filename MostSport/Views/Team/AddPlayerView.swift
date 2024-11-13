@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AddPlayerView: View {
 
-    @StateObject var vm = PlayerViewModel()
-    @StateObject var vmTeame: TeamViewModel
+    @StateObject var vm: TeamViewModel
+    @FocusState var isFocused: Bool
     
     var body: some View {
         ZStack {
@@ -22,18 +22,30 @@ struct AddPlayerView: View {
                 VStack {
                     //MARK: Number
                     CellAddPlayerView(nameCell: "Number", simpleText: $vm.simpleNumber)
+                        .focused($isFocused)
+                        .keyboardType(.numberPad)
                     //MARK: Name
                     CellAddPlayerView(nameCell: "Player name", simpleText: $vm.simpleName)
+                        .focused($isFocused)
                     //MARK: Position
                     CellAddPlayerView(nameCell: "Position", simpleText: $vm.simplePosition)
+                        .focused($isFocused)
                     //MARK: Goals
                     CellAddPlayerView(nameCell: "Goals", simpleText: $vm.simpleGoals)
+                        .focused($isFocused)
+                        .keyboardType(.numberPad)
                     //MARK: Assists
                     CellAddPlayerView(nameCell: "Assists", simpleText: $vm.simpleAssists)
+                        .focused($isFocused)
+                        .keyboardType(.numberPad)
                     //MARK: Number
                     CellAddPlayerView(nameCell: "Yellow cards", simpleText: $vm.simpleYellowCards)
+                        .focused($isFocused)
+                        .keyboardType(.numberPad)
                     //MARK: Number
                     CellAddPlayerView(nameCell: "Red cards", simpleText: $vm.simpleRedCards)
+                        .focused($isFocused)
+                        .keyboardType(.numberPad)
                 }
                 .foregroundStyle(.black)
                 .padding()
@@ -55,20 +67,30 @@ struct AddPlayerView: View {
                     
                     //MARK: - Save button
                     Button {
-                        vm.addPlayer()
-                        vmTeame.isPresetnAddPlayerView = false
-                        vmTeame.getData()
+                        if vm.isEditMode{
+                            vm.editPlayer()
+                        }else{
+                            vm.addPlayer()
+                            vm.isPresetnAddPlayerView = false
+                            vm.getData()
+                        }
+                        
                     } label: {
                         Image(systemName: "checkmark.square.fill")
                             .resizable()
                             .foregroundStyle(vm.simpleName.isEmpty ? .whiteBlue : .green)
                     }
                     .frame(width: 48, height: 48)
+                    .disabled(vm.simpleName.isEmpty ? true : false)
                     
                 }
-            }.padding()
+            }
+            .onTapGesture {
+                isFocused = false
+            }
+            .padding()
         }.onTapGesture {
-            vmTeame.isPresetnAddPlayerView = false
+            vm.isPresetnAddPlayerView = false
             vm.clearSimpleData()
         }
     }
@@ -77,6 +99,6 @@ struct AddPlayerView: View {
 #Preview {
     ZStack {
         Color.black
-        AddPlayerView(vmTeame: TeamViewModel())
+        AddPlayerView(vm: TeamViewModel())
     }
 }

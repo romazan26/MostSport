@@ -11,6 +11,8 @@ struct DashboardCellView: View {
     var nameCell: String
     var image: String
     var count: String
+    var color: UIColor = .blueApp
+    var textColor: UIColor = .white
     var body: some View {
         VStack {
             HStack {
@@ -23,11 +25,11 @@ struct DashboardCellView: View {
                 .font(.system(size: 22, weight: .bold))
             Spacer()
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(Color(textColor))
         .frame(height: 68)
         .padding(10)
         .background(content: {
-            Color.blueApp
+            Color(color)
         })
         
     }

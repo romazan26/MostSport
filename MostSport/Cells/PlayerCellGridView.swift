@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlayerCellGridView: View {
     @ObservedObject var player: Player
+    var isChoose: Bool = false
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
@@ -16,34 +17,35 @@ struct PlayerCellGridView: View {
                     .font(.system(size: 17, weight: .bold))
                 Text("\(player.position ?? "")")
                 Text("Matches: \(player.matchsPlayed)")
-            }.foregroundStyle(.text)
+            }.foregroundStyle(isChoose ? .white : .text)
             Spacer()
             HStack {
                 VStack{
                     Text("G")
                     Divider()
                     Text("\(player.goals)")
-                }.foregroundStyle(.green)
+                }.foregroundStyle(isChoose ? .white : .green)
                 VStack{
                     Text("A")
                     Divider()
                     Text("\(player.assists)")
-                }.foregroundStyle(.blueApp)
+                }.foregroundStyle(isChoose ? .white : .blueApp)
                 VStack{
                     Text("YC")
                     Divider()
                     Text("\(player.yellowCard)")
-                }.foregroundStyle(.orange)
+                }.foregroundStyle(isChoose ? .white : .orange)
                 VStack{
                     Text("RC")
                     Divider()
                     Text("\(player.redCards)")
-                }.foregroundStyle(.red)
+                }.foregroundStyle(isChoose ? .white : .red)
             }.frame(maxHeight: 142)
             
         }.padding()
             .background {
-                Color.whiteBlue.cornerRadius(16)
+                Color(isChoose ? .blueApp : .whiteBlue)
+                    .cornerRadius(16)
             }
     }
 }

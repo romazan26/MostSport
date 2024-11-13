@@ -18,9 +18,19 @@ struct TeamView: View {
                     Text(vm.teamName)
                         .font(.system(size: 28, weight: .bold))
                     Spacer()
-                    Image(systemName: "archivebox.fill")
-                        .resizable()
-                        .frame(width: 28, height: 28)
+                    
+                    //MARK: - Archive view button
+                    NavigationLink {
+                        ArchivePlayersView(vm: vm).onAppear {
+                            vm.isArchiveMode = true
+                        }
+                    } label: {
+                        Image(systemName: "archivebox.fill")
+                            .resizable()
+                            .frame(width: 28, height: 28)
+                    }
+
+                    
                 }.foregroundStyle(.text)
                 
                 //MARK: - Choose sort view
@@ -28,52 +38,18 @@ struct TeamView: View {
                 
                 //MARK: - List Players
                 ScrollView {
-                    if vm.players.isEmpty {
+                    if vm.noArchivePlayers.isEmpty {
                         Text("you dont have any matches yet. You can create a match by clicking on the plus button")
                             .multilineTextAlignment(.center)
                             .foregroundStyle(.text)
                             .padding(.top)
                     }else {
                         if vm.sortingType {
-                            LazyVGrid(columns: [GridItem(), GridItem()]) {
-                                ForEach(vm.players) { player in
-                                    if vm.isArchiveMode {
-                                        Button {
-                                            
-                                        } label: {
-                                            PlayerCellGridView(player: player)
-                                        }
-                                    }else {
-                                        NavigationLink {
-                                            
-                                        } label: {
-                                            PlayerCellGridView(player: player)
-                                        }
-
-                                    }
-                                    
-                                }
-                            }
+                            GridListPlayersView(vm: vm, players: vm.noArchivePlayers)
                         }else{
-                            ForEach(vm.players) { player in
-                                if vm.isArchiveMode {
-                                    Button {
-                                        
-                                    } label: {
-                                        PlayerCellView(player: player)
-                                    }
-                                }else {
-                                    NavigationLink {
-                                        
-                                    } label: {
-                                        PlayerCellView(player: player)
-                                    }
-                                }
-                            }
+                            ListPlayersView(vm: vm, players: vm.noArchivePlayers)
                         }
                     }
-                    
-                    
                 }
                 Spacer()
                 //MARK: - Goup of button
@@ -82,6 +58,7 @@ struct TeamView: View {
                         //MARK: - Delete button
                         Button {
                             vm.isArchiveMode = false
+                            vm.simplePlayers.removeAll()
                         } label: {
                             Image(systemName: "xmark")
                                 .resizable()
@@ -95,7 +72,7 @@ struct TeamView: View {
                         
                         //MARK: - Archive players button
                         Button {
-                           /// vm.isPresetnAddPlayerView = true
+                            vm.saveAddingForArchive()
                         } label: {
                             Image(systemName: "archivebox.fill")
                                 .resizable()
@@ -141,12 +118,18 @@ struct TeamView: View {
                     }
                 }
                     
-            }.padding()
+            }
+            .padding()
+            .onAppear {
+                vm.sortedPlayers()
+            }
             
             //MARK: - Add player view
             if vm.isPresetnAddPlayerView {
-                AddPlayerView(vmTeame: vm)
+                AddPlayerView(vm: vm)
             }
+        }.onAppear {
+            vm.isArchiveMode = false
         }
     }
 }
