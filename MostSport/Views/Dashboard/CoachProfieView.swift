@@ -60,8 +60,8 @@ struct CoachProfieView: View {
                     }
                 }.foregroundStyle(.black)
             }
-            .sheet(isPresented: $vm.showImagePicker) {
-                ImagePicker(image: $vm.selectedImage)
+            .fullScreenCover(isPresented: $vm.showImagePicker) {
+                PhotoPicker(configuration: vm.config, pickerResult: $vm.selectedImage, isPresented: $vm.showImagePicker)
             }
             
             Spacer()

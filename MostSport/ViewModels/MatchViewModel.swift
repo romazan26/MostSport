@@ -20,6 +20,7 @@ final class MatchViewModel: ObservableObject {
     @Published var teamName: String = ""
     @Published var isArchiveMode = false
     @Published var sortingType = false
+    @Published var isPresentEditMatchView = false
     
     //MARK: - Match propertys
     @Published var matchs: [Match] = []
@@ -27,11 +28,13 @@ final class MatchViewModel: ObservableObject {
     @Published var noArchiveMatchs: [Match] = []
     @Published var archiveMatchs: [Match] = []
     @Published var simpleMatchs: [Match] = []
+    @Published var simpleMatch: Match?
     
     @Published var simpleOpponent: String = ""
     @Published var simpleYourScore: String = ""
     @Published var simpleOpponentScore: String = ""
     @Published var simpleDate = Date()
+    @Published var simpleTime: String = ""
     
     //MARK: - Timer propertys
     @Published var timeElapsed: TimeInterval = 0.0
@@ -41,6 +44,23 @@ final class MatchViewModel: ObservableObject {
     init() {
         loadTeamName()
         getMatchs()
+    }
+    
+    //MARK: - Delete match
+    func delteMatch(_ match: Match) {
+        manager.context.delete(match)
+        saveMatchs()
+        sortedMatchs()
+    }
+    
+    //MARK: - FeelData
+    func feelData(_ match: Match) {
+        simpleOpponent = match.opponent ?? ""
+        simpleYourScore = String(match.yourScore)
+        simpleOpponentScore = String(match.oppScore)
+        simpleDate = match.date ?? Date()
+        simpleTime = match.matchTime ?? ""
+        simpleMatch = match
     }
     
     //MARK: - Save edit for archive
@@ -97,6 +117,25 @@ final class MatchViewModel: ObservableObject {
     }
     
     //MARK: - CoreData function
+    
+    //MARK:  Edit data
+    func editMatch(){
+        let request = NSFetchRequest<Match>(entityName: "Match")
+        do{
+            matchs = try manager.context.fetch(request)
+            let editMatch = matchs.first(where: { $0.id == simpleMatch?.id })
+            editMatch?.opponent = simpleOpponent
+            editMatch?.yourScore = Int16(simpleYourScore) ?? 0
+            editMatch?.oppScore = Int16(simpleOpponentScore) ?? 0
+            editMatch?.matchTime = simpleTime
+            editMatch?.date = simpleDate
+        }catch let error{
+            print("Error: \(error)")
+        }
+        saveMatchs()
+        isPresentEditMatchView = false
+        clearMatchData()
+    }
     
     //MARK: Clear simple data
     func clearMatchData(){

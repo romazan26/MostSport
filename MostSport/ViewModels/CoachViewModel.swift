@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct User: Codable {
     var name: String
@@ -26,6 +27,13 @@ final class CoachViewModel: ObservableObject {
            }
        }
        
+    var config: PHPickerConfiguration {
+        var config = PHPickerConfiguration(photoLibrary: .shared())
+        config.filter = .images
+        config.selectionLimit = 1
+        
+        return config
+    }
        init() {
            loadUser()
        }

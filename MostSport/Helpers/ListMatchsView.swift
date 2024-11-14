@@ -20,7 +20,7 @@ struct ListMatchsView: View {
                 }
             }else {
                 NavigationLink {
-//                    PlayerView(player: player, vm: vm)
+                    MatchView(match: match, vm: vm)
                 } label: {
                     MatchCellView(match: match, isChoose: vm.cheackContains(match))
                 }

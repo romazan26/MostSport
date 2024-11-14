@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @StateObject var vmCoach: CoachViewModel
+    @StateObject var vmMatch: MatchViewModel
     @Binding var section: TableSection
     @Binding var ispresentAddPlayerView: Bool
     var body: some View {
@@ -60,7 +61,7 @@ struct DashboardView: View {
                     
                     //MARK: Start match button
                     NavigationLink {
-                        ///Destination
+                        StartMathView(vm: vmMatch)
                     } label: {
                         CustomButtonDashboardBigView(color: .red, text: "Start match", image: "play.fill")
                     }
@@ -88,6 +89,6 @@ struct DashboardView: View {
 
 #Preview {
     NavigationView {
-        DashboardView(vmCoach: CoachViewModel(), section: .constant(.dashboard), ispresentAddPlayerView: .constant(true))
+        DashboardView(vmCoach: CoachViewModel(), vmMatch: MatchViewModel(), section: .constant(.dashboard), ispresentAddPlayerView: .constant(true))
     }
 }
