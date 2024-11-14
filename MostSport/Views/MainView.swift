@@ -13,6 +13,7 @@ struct MainView: View {
     
     @StateObject var vmCoach = CoachViewModel()
     @StateObject var vmTeam = TeamViewModel()
+    @StateObject var vmMatch = MatchViewModel()
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor.whiteBlue
@@ -26,7 +27,7 @@ struct MainView: View {
                 TeamView(vm: vmTeam)
                     .tabItem {CustomTabItemView(image: "person.3.fill",
                                                 text: "My Team")}.tag(TableSection.team)
-                Text("Tab Content 2")
+                MatchsView(vm: vmMatch)
                     .tabItem {CustomTabItemView(image: "soccerball.inverse",
                                                 text: "Matches")}.tag(TableSection.matches)
                 Text("Tab Content 2")

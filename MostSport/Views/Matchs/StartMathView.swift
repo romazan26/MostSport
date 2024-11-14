@@ -9,38 +9,48 @@ import SwiftUI
 
 struct StartMathView: View {
     @StateObject var vm: MatchViewModel
+    @Environment(\.dismiss) var dismiss
     var body: some View {
-        Text(vm.timeFormatted(vm.timeElapsed))
-        HStack(spacing: 20) {
-            Button(action: vm.startTimer) {
-                            Text("Старт")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.green)
-                                .cornerRadius(10)
-                        }
-            .disabled(vm.timerRunning) // Кнопка заблокирована при запущенном таймере
+        VStack(spacing: 20){
+            
+            //MARK: - Info match
+            if vm.timerStatus == .ready {
+                OpponentAndDateView(nameOpponent: $vm.simpleOpponent, date: $vm.simpleDate)
+            }
+            
+            //MARK: - Timer
+            TimerView(vm: vm)
+            
+            //MARK: - Score match
+            if vm.timerStatus != .ready{
+                ScoreEditView(team1: vm.teamName, team2: vm.simpleOpponent, yourScore: $vm.simpleYourScore, oppScore: $vm.simpleOpponentScore)
+            }
+            
+            Spacer()
+            
+            //MARK: - Save button
+            if vm.timerStatus == .stopped {
+                Button {
+                    vm.addMatch()
+                    dismiss()
+                } label: {
+                    Image(systemName: "checkmark.square.fill")
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                        .foregroundStyle(.green)
+                }
 
-            Button(action: vm.stopTimer) {
-                            Text("Стоп")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.red)
-                                .cornerRadius(10)
-                        }
-            .disabled(!vm.timerRunning) // Кнопка заблокирована, если таймер не запущен
-
-            Button(action: vm.resetTimer) {
-                            Text("Сброс")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(10)
-                        }
-                    }
+            }
+                
+        }
+        .navigationTitle("Start match")
+        .navigationBarTitleDisplayMode(.inline)
+        .padding()
     }
 }
 
 #Preview {
-    StartMathView(vm: MatchViewModel())
+    NavigationView {
+        StartMathView(vm: MatchViewModel())
+    }
 }
