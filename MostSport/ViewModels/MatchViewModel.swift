@@ -46,6 +46,36 @@ final class MatchViewModel: ObservableObject {
         getMatchs()
     }
     
+    //MARK: - Get data for dashboard
+    func getWinnerCount() -> String {
+        var winnerCount: Int = 0
+        for match in matchs {
+            if match.yourScore > match.oppScore {
+                winnerCount += 1
+            }
+        }
+        return String(winnerCount)
+    }
+    
+    func getDefeatCount() -> String {
+        var defeatCount: Int = 0
+        for match in matchs {
+            if match.yourScore < match.oppScore {
+                defeatCount += 1
+            }
+        }
+        return String(defeatCount)
+    }
+    
+    func getPercentWinner() -> String {
+        let winnerCount: Int = Int(getWinnerCount()) ?? 0
+        let defeatCount: Int = Int(getDefeatCount()) ?? 0
+        let totalMatch: Int = matchs.count
+        let percentWinner: Double = Double(winnerCount) / Double(totalMatch) * 100
+        return String(percentWinner)
+            
+    }
+    
     //MARK: - Delete match
     func delteMatch(_ match: Match) {
         manager.context.delete(match)

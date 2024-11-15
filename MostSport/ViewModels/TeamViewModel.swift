@@ -18,7 +18,7 @@ final class TeamViewModel: ObservableObject {
     @Published var isArchiveMode = false
     @Published var isEditMode = false
     
-    private var players: [Player] = []
+    @Published var players: [Player] = []
     @Published var noArchivePlayers: [Player] = []
     @Published var archivePlayers: [Player] = []
     @Published var simplePlayers: [Player] = []
@@ -37,6 +37,23 @@ final class TeamViewModel: ObservableObject {
     @Published var simpleAssists = ""
     @Published var simpleYellowCards = ""
     @Published var simpleRedCards = ""
+    
+    //MARK: - get data for dashboard
+    func getGoalsCount() -> String{
+        var  goalsCount: Int = 0
+        for player in players{
+            goalsCount += Int(player.goals)
+        }
+        return String(goalsCount)
+    }
+    
+    func getPenaltiesCount() -> String{
+        var penaltiesCount: Int = 0
+        for player in players{
+            penaltiesCount += Int(player.redCards) + Int(player.yellowCard)
+        }
+        return String(penaltiesCount)
+    }
     
     //MARK: - Feel data
     func feelData(player: Player){

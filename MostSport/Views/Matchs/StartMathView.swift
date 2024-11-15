@@ -10,12 +10,14 @@ import SwiftUI
 struct StartMathView: View {
     @StateObject var vm: MatchViewModel
     @Environment(\.dismiss) var dismiss
+    @FocusState var isFocused: Bool
     var body: some View {
         VStack(spacing: 20){
             
             //MARK: - Info match
             if vm.timerStatus == .ready {
                 OpponentAndDateView(nameOpponent: $vm.simpleOpponent, date: $vm.simpleDate)
+                    .focused($isFocused)
             }
             
             //MARK: - Timer
@@ -42,6 +44,9 @@ struct StartMathView: View {
 
             }
                 
+        }
+        .onTapGesture {
+            isFocused = false
         }
         .navigationTitle("Start match")
         .navigationBarTitleDisplayMode(.inline)

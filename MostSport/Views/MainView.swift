@@ -21,7 +21,11 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             TabView(selection: $sections) {
-                DashboardView(vmCoach: vmCoach, vmMatch: vmMatch, section: $sections, ispresentAddPlayerView: $vmTeam.isPresetnAddPlayerView)
+                DashboardView(vmCoach: vmCoach,
+                              vmMatch: vmMatch,
+                              vmTeam: vmTeam,
+                              section: $sections,
+                              ispresentAddPlayerView: $vmTeam.isPresetnAddPlayerView)
                     .tabItem {CustomTabItemView(image: "square.split.2x2.fill",
                                                 text: "Dashboard")}.tag(TableSection.dashboard)
                 TeamView(vm: vmTeam)

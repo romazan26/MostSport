@@ -26,14 +26,14 @@ struct TimerView: View {
                             .foregroundStyle(.white)
                             .frame(width: 32, height: 32)
                     }
-                    .disabled(vm.simpleOpponent.isEmpty ? true : false)
+                    
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(content: {
                         Color(vm.simpleOpponent.isEmpty ? .gray : .red)
                     })
                     .cornerRadius(10)
-                }
+                }.disabled(vm.simpleOpponent.isEmpty ? true : false)
             case .running:
                 HStack{
                     //MARK: - End Match button

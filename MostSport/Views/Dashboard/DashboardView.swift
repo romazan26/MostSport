@@ -10,6 +10,7 @@ import SwiftUI
 struct DashboardView: View {
     @StateObject var vmCoach: CoachViewModel
     @StateObject var vmMatch: MatchViewModel
+    @StateObject var vmTeam: TeamViewModel
     @Binding var section: TableSection
     @Binding var ispresentAddPlayerView: Bool
     var body: some View {
@@ -39,14 +40,37 @@ struct DashboardView: View {
                         .font(.system(size: 28, weight: .bold))
                     
                     LazyVGrid(columns: [GridItem(spacing: 10),GridItem()]) {
-                        DashboardCellView(nameCell: "Matches Played", image: "soccerball.inverse", count: "0")
-                        DashboardCellView(nameCell: "Victories", image: "trophy.fill", count: "0")
-                        DashboardCellView(nameCell: "Defeats", image: "hand.thumbsdown.fill", count: "0")
-                        DashboardCellView(nameCell: "Draw", image: "figure.2", count: "0")
-                        DashboardCellView(nameCell: "Win Percentage", image: "percent", count: "0")
-                        DashboardCellView(nameCell: "Goals", image: "figure.indoor.soccer", count: "0")
-                        DashboardCellView(nameCell: "Penalties", image: "xmark.app.fill", count: "0")
-                        DashboardCellView(nameCell: "Avg Match Duration", image: "clock.fill", count: "00:00:00")
+                        DashboardCellView(nameCell: "Matches Played",
+                                          image: "soccerball.inverse",
+                                          count: "\(vmMatch.matchs.count)")
+                        
+                        DashboardCellView(nameCell: "Victories",
+                                          image: "trophy.fill",
+                                          count: vmMatch.getWinnerCount())
+                        
+                        DashboardCellView(nameCell: "Defeats",
+                                          image: "hand.thumbsdown.fill",
+                                          count: vmMatch.getDefeatCount())
+                        
+                        DashboardCellView(nameCell: "Draw",
+                                          image: "figure.2",
+                                          count: "\(vmTeam.players.count)")
+                        
+                        DashboardCellView(nameCell: "Win Percentage",
+                                          image: "percent",
+                                          count: "\(vmMatch.getPercentWinner())%")
+                        
+                        DashboardCellView(nameCell: "Goals",
+                                          image: "figure.indoor.soccer",
+                                          count: vmTeam.getGoalsCount())
+                        
+                        DashboardCellView(nameCell: "Penalties",
+                                          image: "xmark.app.fill",
+                                          count: vmTeam.getPenaltiesCount())
+                        
+                        DashboardCellView(nameCell: "Avg Match Duration",
+                                          image: "clock.fill",
+                                          count: vmMatch.matchs.last?.matchTime ?? "")
                     }.clipShape(RoundedRectangle(cornerRadius: 16))
                 }
                 //MARK: - Goup of button
@@ -68,7 +92,7 @@ struct DashboardView: View {
                     
                 }
                 
-                //MARK: - Matcges
+                //MARK: - Matches
                 VStack{
                     HStack{
                         Text("Last matches")
@@ -77,9 +101,14 @@ struct DashboardView: View {
                         Spacer()
                         Image(systemName: "arrow.up.forward")
                     }.foregroundStyle(.text)
-                    Text("you dont have any matches yet. You can create a match in the «Matches» tab")
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.text)
+                    if vmMatch.matchs.isEmpty {
+                        Text("you dont have any matches yet. You can create a match in the «Matches» tab")
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.text)
+                    }else{
+                        MatchCellView(match: vmMatch.matchs.last!)
+                    }
+                    
                 }
                 Spacer()
             }.padding()
@@ -89,6 +118,6 @@ struct DashboardView: View {
 
 #Preview {
     NavigationView {
-        DashboardView(vmCoach: CoachViewModel(), vmMatch: MatchViewModel(), section: .constant(.dashboard), ispresentAddPlayerView: .constant(true))
+        DashboardView(vmCoach: CoachViewModel(), vmMatch: MatchViewModel(), vmTeam: TeamViewModel(), section: .constant(.dashboard), ispresentAddPlayerView: .constant(true))
     }
 }

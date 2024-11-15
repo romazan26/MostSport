@@ -22,17 +22,18 @@ struct EditMatchView: View {
                     //MARK: Opponents
                     CellAddPlayerView(nameCell: "Opponents", simpleText: $vm.simpleOpponent)
                         .focused($isFocused)
-                        .keyboardType(.numberPad)
+                        
                     //MARK: Your score
                     CellAddPlayerView(nameCell: "Your score", simpleText: $vm.simpleYourScore)
                         .focused($isFocused)
+                        .keyboardType(.numberPad)
                     //MARK: Opp score
                     CellAddPlayerView(nameCell: " Opp score", simpleText: $vm.simpleOpponentScore)
                         .focused($isFocused)
+                        .keyboardType(.numberPad)
                     //MARK: Time
                     CellAddPlayerView(nameCell: "time", simpleText: $vm.simpleTime)
                         .focused($isFocused)
-                        .keyboardType(.numberPad)
                     //MARK: date
                     DatePicker("Date", selection: $vm.simpleDate, displayedComponents: .date)
                     
