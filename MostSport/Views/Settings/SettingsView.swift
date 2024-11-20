@@ -14,7 +14,7 @@ struct SettingsView: View {
     @State private var isPresentShare = false
     @State private var isPresentPolicy = false
     @State var urlShare = "https://www.apple.com/app-store/"
-    @State var urlPrivacy = "https://www.apple.com/app-store/"
+    @State var urlPrivacy = "https://www.termsfeed.com/live/f9ba26e1-cdc6-4ff6-9f25-04ad5f3d5e27"
     
     var body: some View {
 
